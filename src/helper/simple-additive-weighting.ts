@@ -4,8 +4,13 @@ function count(arr: any, namaPetani: any) {
   let hasil: any[] = [];
 
   arr.forEach((element: any, index: any) => {
-    let max = Math.max(...arr[index]);
-    hasil.push(arr[index].map((e: any) => e / max));
+    if (index === 0 || index === 1 || index === 3 || index === 4) {
+      let min = Math.min(...arr[index]);
+      hasil.push(arr[index].map((e: any) => min / e));
+    } else {
+      let max = Math.max(...arr[index]);
+      hasil.push(arr[index].map((e: any) => e / max));
+    }
   });
 
   let output = [];
@@ -19,7 +24,8 @@ function count(arr: any, namaPetani: any) {
     if (real < 0) {
       real = 0;
     }
-    output.push({ id: namaPetani[i], score: Math.round(real) });
+    // output.push({ id: namaPetani[i], score: Math.round(real) });
+    output.push({ id: namaPetani[i], score: real });
   }
 
   // return output.sort((a, b) => {
@@ -29,7 +35,6 @@ function count(arr: any, namaPetani: any) {
 }
 
 export default function processArray(arr: any) {
-  const result: any[] = [];
   const kriteria: any[] = [];
   const namaPetani: any[] = [];
 
@@ -49,11 +54,9 @@ export default function processArray(arr: any) {
     return output;
   }
 
-  kriteria[0].forEach((element: any, index: any) => {
-    result.push(
-      kriteria.map((e: any, indexMap: any) => kriteria[indexMap][index])
-    );
-  });
+  const result = kriteria[0].map((element: any, index: any) =>
+    kriteria.map((row) => row[index])
+  );
 
   const output = count(result, namaPetani);
 
